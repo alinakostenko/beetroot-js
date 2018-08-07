@@ -1,7 +1,10 @@
 $(document).ready(function () {
 
+    var mapElement = document.getElementById("map");
+    $(mapElement).hide();
+
     var appId = '8264281041147d9a5ec6fcb61f798642',
-        url = 'https://api.openweathermap.org/data/2.5/forecast?q=Zaporizhzhia&units=metric&lang=ua&APPID=' + appId,
+        url = 'https://api.openweathermap.org/data/2.5/forecast?q=Kyrylivka&units=metric&lang=ua&APPID=' + appId,
         request = $.ajax({
             url: url,
             method: "GET",
@@ -14,6 +17,7 @@ $(document).ready(function () {
     request.done(function(msg) {
         console.log(msg);
         display(msg);
+        showMap(mapElement, msg.city.coord);
     });
 
     request.fail(function( jqXHR, textStatus ) {
@@ -37,4 +41,20 @@ $(document).ready(function () {
         $weather.html(weatherHtml);
     }
 
+    function showMap(mapElement, coords) {
+        var center = new google.maps.LatLng(coords.lat, coords.lon);
+
+        var marker = new google.maps.Marker({
+            position: center,
+            animation: google.maps.Animation.BOUNCE
+        });
+
+        var mapProp= {
+            center: center,
+            zoom: 5
+        };
+        var map =new google.maps.Map(document.getElementById("map"), mapProp);
+        marker.setMap(map);
+        $(mapElement).show();
+    }
 });
