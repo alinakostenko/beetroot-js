@@ -1,0 +1,6 @@
+.todo-wrapper {
+    display: inline-block;
+    border: 1px solid black;
+    margin: 15px;
+    padding: 15px 10px;
+}
